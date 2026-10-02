@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embervault.dev/contracts/ui-module.schema.json",
+  "title": "EmberVault UI Module Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["module_id", "title", "surface", "required_capabilities"],
+  "properties": {
+    "module_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "surface": {"enum": ["embedded-page", "embedded-panel", "separate-process"]},
+    "required_capabilities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "route": {"type": "string"},
+    "feature_state": {"enum": ["experimental", "preview", "stable", "deprecated"]}
+  }
+}
