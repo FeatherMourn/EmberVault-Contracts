@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embervault.local/contracts/module-manifest.schema.json",
+  "title": "EmberVault Module Manifest",
+  "type": "object",
+  "required": ["id", "name", "version", "publisher", "capabilities", "feature_state", "process_mode", "contract_version", "safety", "recovery", "operation_types"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^embervault\\.[a-z0-9-]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "publisher": {"type": "string", "minLength": 1},
+    "minimum_core_version": {"type": "string", "minLength": 1},
+    "capabilities": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "feature_state": {"enum": ["stable", "verified", "experimental", "research-only", "blocked"]},
+    "process_mode": {"enum": ["embedded", "separate"]},
+    "entrypoint": {"type": ["string", "null"]},
+    "executable": {"type": ["string", "null"]},
+    "contract_version": {"const": 1},
+    "safety": {"type": "object", "required": ["read_only", "requires_backup", "allowed_profiles"], "properties": {
+      "read_only": {"type": "boolean"}, "requires_backup": {"type": "boolean"},
+      "allowed_profiles": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+    }, "additionalProperties": false},
+    "recovery": {"type": "object", "required": ["rollback", "verification"], "properties": {
+      "rollback": {"type": "string", "minLength": 1}, "verification": {"type": "string", "minLength": 1}
+    }, "additionalProperties": false},
+    "operation_types": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": false
+}
