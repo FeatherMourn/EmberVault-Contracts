@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embervault.dev/contracts/promotion-evidence.schema.json",
+  "title": "EmberVault capability promotion evidence",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "target_state", "evidence"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "target_state": {"enum": ["research-only", "experimental", "verified", "stable"]},
+    "evidence": {"type": "object", "additionalProperties": false,
+      "required": ["capability_id", "current_build", "reproducible", "runtime_confirmed", "recovery_tested", "compatibility_documented", "owner", "rollback_tested"],
+      "properties": {
+        "capability_id": {"type": "string", "minLength": 1}, "current_build": {"type": "string", "minLength": 1},
+        "reproducible": {"type": "boolean"}, "runtime_confirmed": {"type": "boolean"}, "recovery_tested": {"type": "boolean"},
+        "compatibility_documented": {"type": "boolean"}, "owner": {"type": "string", "minLength": 1},
+        "rollback_tested": {"type": "boolean"}, "source_research_id": {"type": "string"}
+      }
+    }
+  }
+}

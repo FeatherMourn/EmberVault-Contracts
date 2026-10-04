@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embervault.dev/contracts/integration-context.schema.json",
+  "title": "EmberVault cross-module integration context",
+  "type": "object", "additionalProperties": false,
+  "required": ["operation_id", "profile_id", "capability", "capability_state", "recovery_expectation"],
+  "properties": {
+    "operation_id": {"type": "string", "minLength": 1}, "profile_id": {"type": "string", "minLength": 1},
+    "capability": {"type": "string", "minLength": 1},
+    "capability_state": {"enum": ["ready", "gated", "staged", "read-only", "plan-only"]},
+    "recovery_expectation": {"type": "string", "minLength": 1}
+  }
+}

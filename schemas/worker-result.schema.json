@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embervault.dev/contracts/worker-result.schema.json",
+  "title": "EmberVault Guarded Worker Result",
+  "type": "object",
+  "required": ["contract_version", "status", "read_only", "profile", "game_path", "operation"],
+  "properties": {
+    "contract_version": {"const": 1}, "status": {"const": "ready"}, "read_only": {"const": true},
+    "profile": {"type": "string"}, "game_path": {"type": "string"}, "operation": {"type": "string"},
+    "evidence": {"type": "array", "items": {"type": "string"}, "maxItems": 64},
+    "checks": {"type": "array", "items": {"type": "string"}, "maxItems": 64}
+  },
+  "additionalProperties": false
+}
