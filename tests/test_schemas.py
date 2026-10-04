@@ -40,7 +40,8 @@ class ManifestSchemaTests(unittest.TestCase):
     def test_shared_schemas_use_canonical_namespace(self):
         for name in ("module-manifest.schema.json", "ui-module.schema.json",
                      "worker-result.schema.json", "integration-context.schema.json",
-                     "promotion-evidence.schema.json"):
+                     "promotion-evidence.schema.json", "evidence-reference.schema.json",
+                     "recovery-reference.schema.json"):
             schema = json.loads((ROOT / "schemas" / name).read_text(encoding="utf-8"))
             self.assertTrue(schema["$id"].startswith("https://embervault.dev/contracts/"), name)
 

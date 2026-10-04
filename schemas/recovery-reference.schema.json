@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embervault.dev/contracts/recovery-reference.schema.json",
+  "title": "EmberVault Recovery Reference",
+  "type": "object", "additionalProperties": false,
+  "required": ["expectation", "rollback", "verification", "backup_required"],
+  "properties": {
+    "expectation": {"type": "string", "minLength": 1},
+    "rollback": {"type": "string", "minLength": 1},
+    "verification": {"type": "string", "minLength": 1},
+    "backup_required": {"type": "boolean"},
+    "backup_id": {"type": "string"}
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embervault.dev/contracts/evidence-reference.schema.json",
+  "title": "EmberVault Evidence Reference",
+  "type": "object", "additionalProperties": false,
+  "required": ["id", "kind", "state", "summary"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["research", "runtime", "static", "test", "build", "user-report"]},
+    "state": {"enum": ["observed", "inferred", "hypothesis", "verified", "blocked"]},
+    "summary": {"type": "string", "minLength": 1},
+    "build": {"type": "string"},
+    "source": {"type": "string"}
+  }
+}
