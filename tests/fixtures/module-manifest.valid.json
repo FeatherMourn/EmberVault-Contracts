@@ -1,0 +1,14 @@
+{
+  "id": "embervault.example",
+  "name": "Example Module",
+  "version": "1.0.0",
+  "publisher": "EmberVault",
+  "capabilities": ["example"],
+  "feature_state": "experimental",
+  "process_mode": "embedded",
+  "entrypoint": "src/module.py",
+  "contract_version": 1,
+  "safety": {"read_only": true, "requires_backup": false, "allowed_profiles": ["default"]},
+  "recovery": {"rollback": "Discard the plan", "verification": "No live files touched"},
+  "operation_types": ["example-check"]
+}

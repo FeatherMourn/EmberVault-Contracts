@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://embervault.local/contracts/module-manifest.schema.json",
+  "$id": "https://embervault.dev/contracts/module-manifest.schema.json",
   "title": "EmberVault Module Manifest",
   "type": "object",
   "required": ["id", "name", "version", "publisher", "capabilities", "feature_state", "process_mode", "contract_version", "safety", "recovery", "operation_types"],

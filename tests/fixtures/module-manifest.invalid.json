@@ -1,0 +1,13 @@
+{
+  "id": "not-a-module-id",
+  "name": "",
+  "version": "1.0.0",
+  "publisher": "EmberVault",
+  "capabilities": [],
+  "feature_state": "unknown",
+  "process_mode": "embedded",
+  "contract_version": 99,
+  "safety": {"read_only": "yes"},
+  "recovery": {},
+  "operation_types": []
+}
