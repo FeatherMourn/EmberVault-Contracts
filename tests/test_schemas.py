@@ -41,7 +41,7 @@ class ManifestSchemaTests(unittest.TestCase):
         for name in ("module-manifest.schema.json", "ui-module.schema.json",
                      "worker-result.schema.json", "integration-context.schema.json",
                      "promotion-evidence.schema.json", "evidence-reference.schema.json",
-                     "recovery-reference.schema.json"):
+                     "recovery-reference.schema.json", "content-project-export.schema.json"):
             schema = json.loads((ROOT / "schemas" / name).read_text(encoding="utf-8"))
             self.assertTrue(schema["$id"].startswith("https://embervault.dev/contracts/"), name)
 
@@ -57,6 +57,12 @@ class ManifestSchemaTests(unittest.TestCase):
     def test_invalid_fixture_fails_closed(self):
         value = json.loads((FIXTURES / "module-manifest.invalid.json").read_text(encoding="utf-8"))
         self.assertGreaterEqual(len(validate_manifest(value)), 5)
+
+    def test_content_project_export_contract_is_design_only(self):
+        schema = json.loads((ROOT / "schemas" / "content-project-export.schema.json").read_text(encoding="utf-8"))
+        self.assertEqual(schema["properties"]["schema_version"]["const"], 1)
+        self.assertEqual(schema["properties"]["application_state"]["const"], "design-only")
+        self.assertEqual(schema["properties"]["live_game_files_touched"]["const"], False)
 
 
 if __name__ == "__main__":
