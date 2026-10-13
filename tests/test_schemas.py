@@ -85,6 +85,21 @@ class ManifestSchemaTests(unittest.TestCase):
             (module / "module.json").write_text(fixture, encoding="utf-8")
             self.assertEqual(audit(root), {})
 
+    def test_manifest_comparison_is_deterministic_and_read_only(self):
+        from tools.compare_manifests import compare
+        with tempfile.TemporaryDirectory() as root:
+            left = Path(root) / "left" / "EmberVault-Example"
+            right = Path(root) / "right" / "EmberVault-Example"
+            left.mkdir(parents=True); right.mkdir(parents=True)
+            fixture = json.loads((FIXTURES / "module-manifest.valid.json").read_text(encoding="utf-8"))
+            (left / "module.json").write_text(json.dumps(fixture), encoding="utf-8")
+            fixture["version"] = "2.0.0"
+            (right / "module.json").write_text(json.dumps(fixture), encoding="utf-8")
+            report = compare(Path(root) / "left", Path(root) / "right")
+            self.assertFalse(report["consistent"])
+            self.assertEqual(report["metadata_drift"]["embervault.example"]["version"]["left"], "1.0.0")
+            self.assertTrue(report["read_only"])
+
 
 if __name__ == "__main__":
     unittest.main()
