@@ -1,0 +1,21 @@
+name: Contracts validation
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run contract tests
+        run: python -m unittest discover -s tests
+      - name: Run manifest audit against checked-in fixture root
+        run: |
+          mkdir -p ci-fixtures/EmberVault-Example
+          cp tests/fixtures/module-manifest.valid.json ci-fixtures/EmberVault-Example/module.json
+          python tools/audit_manifests.py ci-fixtures
