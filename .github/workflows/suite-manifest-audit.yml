@@ -1,0 +1,73 @@
+name: Suite manifest audit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Contracts
+        uses: actions/checkout@v4
+      - name: Checkout Control Center bundle
+        uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-Control-Center
+          ref: main
+          path: suite/EmberVault-Control-Center
+          fetch-depth: 1
+      - name: Checkout standalone module manifests
+        uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-Content-Creator
+          ref: main
+          path: suite/EmberVault-Content-Creator
+          sparse-checkout: module.json
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-Mod-Research
+          ref: main
+          path: suite/EmberVault-Mod-Research
+          sparse-checkout: module.json
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-TroubleShooter
+          ref: main
+          path: suite/EmberVault-TroubleShooter
+          sparse-checkout: module.json
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-Game-Tuning
+          ref: main
+          path: suite/EmberVault-Game-Tuning
+          sparse-checkout: module.json
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-Save-Manager
+          ref: main
+          path: suite/EmberVault-Save-Manager
+          sparse-checkout: module.json
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-Character-Tools
+          ref: main
+          path: suite/EmberVault-Character-Tools
+          sparse-checkout: module.json
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: FeatherMourn/EmberVault-Mod-Manager
+          ref: main
+          path: suite/EmberVault-Mod-Manager
+          sparse-checkout: module.json
+          fetch-depth: 1
+      - name: Run suite manifest audit
+        run: python tools/audit_suite_manifests.py suite
