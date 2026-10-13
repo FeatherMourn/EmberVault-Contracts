@@ -28,7 +28,10 @@ def validate_manifest(value: dict) -> list[str]:
         if not isinstance(value.get(key), list) or any(not isinstance(item, str) or not item for item in value.get(key, [])):
             issues.append(key)
     safety = value.get("safety", {})
-    if not isinstance(safety, dict) or not isinstance(safety.get("read_only"), bool) or not isinstance(safety.get("requires_backup"), bool):
+    if (not isinstance(safety, dict) or not isinstance(safety.get("read_only"), bool)
+            or not isinstance(safety.get("requires_backup"), bool)
+            or not isinstance(safety.get("allowed_profiles"), list)
+            or any(not isinstance(item, str) or not item for item in safety.get("allowed_profiles", []))):
         issues.append("safety")
     recovery = value.get("recovery", {})
     if not isinstance(recovery, dict) or any(not isinstance(recovery.get(key), str) or not recovery[key] for key in ("rollback", "verification")):
