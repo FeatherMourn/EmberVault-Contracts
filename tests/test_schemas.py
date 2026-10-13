@@ -1,5 +1,6 @@
 import json
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -66,6 +67,23 @@ class ManifestSchemaTests(unittest.TestCase):
         self.assertEqual(schema["properties"]["schema_version"]["const"], 1)
         self.assertEqual(schema["properties"]["application_state"]["const"], "design-only")
         self.assertEqual(schema["properties"]["live_game_files_touched"]["const"], False)
+
+    def test_repository_manifest_audit_reports_invalid_module_without_mutation(self):
+        from tools.audit_manifests import audit
+        with tempfile.TemporaryDirectory() as root:
+            module = Path(root) / "EmberVault-Bad"; module.mkdir()
+            (module / "module.json").write_text(json.dumps({"id": "bad"}), encoding="utf-8")
+            result = audit(root)
+            self.assertEqual(len(result), 1)
+            self.assertTrue((module / "module.json").exists())
+
+    def test_repository_manifest_audit_accepts_canonical_fixture(self):
+        from tools.audit_manifests import audit
+        with tempfile.TemporaryDirectory() as root:
+            module = Path(root) / "EmberVault-Good"; module.mkdir()
+            fixture = (FIXTURES / "module-manifest.valid.json").read_text(encoding="utf-8")
+            (module / "module.json").write_text(fixture, encoding="utf-8")
+            self.assertEqual(audit(root), {})
 
 
 if __name__ == "__main__":
