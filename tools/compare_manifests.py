@@ -8,6 +8,7 @@ from typing import Any
 
 
 IGNORED_FIELDS = {"entrypoint", "executable", "application_entrypoint", "launcher", "minimum_core_version"}
+CRITICAL_FIELDS = {"version", "feature_state", "contract_version", "safety"}
 
 
 def load_manifests(root: str | Path) -> dict[str, dict[str, Any]]:
@@ -27,6 +28,7 @@ def compare(left: str | Path, right: str | Path) -> dict[str, Any]:
     missing_left = sorted(set(right_values) - set(left_values))
     missing_right = sorted(set(left_values) - set(right_values))
     drift: dict[str, dict[str, Any]] = {}
+    critical_drift: dict[str, dict[str, Any]] = {}
     for module_id in sorted(set(left_values) & set(right_values)):
         fields = {}
         for field in sorted(set(left_values[module_id]) | set(right_values[module_id])):
@@ -36,13 +38,18 @@ def compare(left: str | Path, right: str | Path) -> dict[str, Any]:
                 fields[field] = {"left": left_values[module_id].get(field), "right": right_values[module_id].get(field)}
         if fields:
             drift[module_id] = fields
+            critical = {field: value for field, value in fields.items() if field in CRITICAL_FIELDS}
+            if critical:
+                critical_drift[module_id] = critical
     return {
         "comparison_version": 1,
         "module_count": len(module_ids),
         "missing_left": missing_left,
         "missing_right": missing_right,
         "metadata_drift": drift,
-        "consistent": not missing_left and not missing_right and not drift,
+        "consistent": not missing_left and not missing_right and not critical_drift,
+        "metadata_consistent": not missing_left and not missing_right and not drift,
+        "critical_drift": critical_drift,
         "read_only": True,
     }
 
