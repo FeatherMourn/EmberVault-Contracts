@@ -100,6 +100,19 @@ class ManifestSchemaTests(unittest.TestCase):
             self.assertEqual(report["metadata_drift"]["embervault.example"]["version"]["left"], "1.0.0")
             self.assertTrue(report["read_only"])
 
+    def test_suite_audit_reports_matching_safety_boundaries(self):
+        from tools.audit_suite_manifests import audit_suite
+        with tempfile.TemporaryDirectory() as root:
+            base = Path(root)
+            standalone = base / "EmberVault-Example"; standalone.mkdir()
+            bundled = base / "EmberVault-Control-Center" / "modules" / "example"; bundled.mkdir(parents=True)
+            fixture = (FIXTURES / "module-manifest.valid.json").read_text(encoding="utf-8")
+            (standalone / "module.json").write_text(fixture, encoding="utf-8")
+            (bundled / "module.json").write_text(fixture, encoding="utf-8")
+            report = audit_suite(base)
+            self.assertTrue(report["consistent"])
+            self.assertTrue(report["read_only"])
+
 
 if __name__ == "__main__":
     unittest.main()
